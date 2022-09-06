@@ -12,7 +12,7 @@
   "author": "pengchangjun <pengchangjun-user@qq.com>",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/pengchangjun-user/ts-axios-http"
   },
   "license": "MIT",
   "engines": {
@@ -22,9 +22,9 @@
     "dev": "node examples/server.js",
     "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "prebuild": "rimraf dist",
-    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts",
     "start": "rollup -c rollup.config.ts -w",
-    "test": "jest",
+    "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
     "test:prod": "npm run lint && npm run test -- --no-cache",
     "deploy-docs": "ts-node tools/gh-pages-publish",
@@ -33,7 +33,9 @@
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "precommit": "lint-staged",
-    "travis-deploy-once": "travis-deploy-once"
+    "travis-deploy-once": "travis-deploy-once",
+    "prepub": "npm run test:prod && npm run build",
+    "pub": "sh release.sh"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
@@ -70,8 +72,7 @@
       }
     },
     "collectCoverageFrom": [
-      "src/*.{js,ts}",
-      "src/**/*.{js,ts}"
+      "src/helpers/*.{js,ts}"
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/test/boot.ts"
@@ -89,6 +90,7 @@
   "devDependencies": {
     "@commitlint/cli": "^7.1.2",
     "@commitlint/config-conventional": "^7.1.2",
+    "@types/estree": "^0.0.47",
     "@types/jest": "^29.0.0",
     "@types/node": "^10.11.0",
     "@types/nprogress": "^0.2.0",
@@ -128,7 +130,7 @@
     "ts-jest": "^28.0.8",
     "ts-loader": "^9.3.1",
     "ts-node": "^10.9.1",
-    "tslint": "^5.11.0",
+    "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.15.0",
     "tslint-config-standard": "^8.0.1",
     "tslint-loader": "^3.5.4",
